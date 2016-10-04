@@ -1,9 +1,9 @@
 # Built using the [swagger.io editor](http://editor.swagger.io/#/)
 swagger: '2.0'
 info:
-  title: CurateND Query API
+  title: CurateND API
   description: |
-    Prototype of the CurateND Query API. This is a work in progress.
+    Prototype of the CurateND API. This is a work in progress.
   version: "0.0.0"
   license:
     name: Apache 2.0
