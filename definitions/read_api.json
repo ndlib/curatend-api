@@ -1,0 +1,521 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "CurateND API",
+        "description": "Prototype of the CurateND API. This is a work in progress.\n",
+        "version": "0.0.0",
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "contact": {
+            "name": "CurateND support team",
+            "email": "curate@nd.edu"
+        }
+    },
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/api/v0",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "header",
+            "description": "You can request an API key by contacting Don Brower."
+        }
+    },
+    "paths": {
+        "/objects/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "summary": "Get Object Info",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The opaque identifier (e.g Noid) of the object to retrieve",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An ObjectInfo",
+                        "schema": {
+                            "$ref": "#/definitions/ObjectInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/objects/{id}/content": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "The opaque identifier (e.g Noid) of the object to retrieve",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Binary Files"
+                ],
+                "summary": "This endpoint is used to retrieve the contents of a `file` object. Calling it on non-file objects will return a 404 error. The unversioned path will return the most current version.",
+                "responses": {
+                    "200": {
+                        "description": "Retrieve the binary contents of the given file.",
+                        "schema": {
+                            "type": "file"
+                        },
+                        "headers": {
+                            "Accepts-Ranges": {
+                                "type": "string",
+                                "description": "Indicates support of range requests; 'bytes'"
+                            },
+                            "Content-Length": {
+                                "type": "integer",
+                                "description": "Size of the content in bytes"
+                            },
+                            "Content-Type": {
+                                "type": "string",
+                                "description": "MIME Type of the content e.g. 'application/pdf'"
+                            },
+                            "Content-Disposition": {
+                                "type": "string",
+                                "description": "Rendering and handling instcutions e.g. 'inline; filename=example.pdf'"
+                            },
+                            "ETag": {
+                                "type": "integer",
+                                "description": "Strong ETag generated for the content"
+                            },
+                            "Checksum-SHA256": {
+                                "type": "string",
+                                "description": "Base16 hash for the entire file; not included in range requests; not computed, passed along from underlying metadata"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "A non-file object or non-existent object was requested.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "head": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Binary Files"
+                ],
+                "summary": "Return file metadata without the file payload",
+                "responses": {
+                    "200": {
+                        "description": "Success. Just look at those headers!",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {
+                            "Accepts-Ranges": {
+                                "type": "string",
+                                "description": "Indicates support of range requests; 'bytes'"
+                            },
+                            "Content-Length": {
+                                "type": "integer",
+                                "description": "Size of the content in bytes"
+                            },
+                            "Content-Type": {
+                                "type": "string",
+                                "description": "MIME Type of the content e.g. 'application/pdf'"
+                            },
+                            "Content-Disposition": {
+                                "type": "string",
+                                "description": "Rendering and handling instcutions e.g. 'inline; filename=example.pdf'"
+                            },
+                            "ETag": {
+                                "type": "integer",
+                                "description": "Strong ETag generated for the content"
+                            },
+                            "Checksum-SHA256": {
+                                "type": "string",
+                                "description": "Base16 hash for the entire file; not included in range requests; not computed, passed along from underlying metadata"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "A non-file object or non-existent object was requested.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/objects/{id}/thumbnail": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "The opaque identifier (e.g Noid) of the object to retrieve",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Binary Files"
+                ],
+                "summary": "Returns the thumbnail image for a collection, work, or file. For a work the thumbnail returned is that of the work’s representative image.",
+                "responses": {
+                    "200": {
+                        "description": "Return the thumbnail for the given object",
+                        "schema": {
+                            "type": "file"
+                        },
+                        "headers": {
+                            "Accepts-Ranges": {
+                                "type": "string",
+                                "description": "Indicates support of range requests; 'bytes'"
+                            },
+                            "Content-Length": {
+                                "type": "integer",
+                                "description": "Size of the content in bytes"
+                            },
+                            "Content-Type": {
+                                "type": "string",
+                                "description": "MIME Type of the content e.g. 'image/jpeg'"
+                            },
+                            "Content-Disposition": {
+                                "type": "string",
+                                "description": "Rendering and handling instcutions e.g. 'inline; filename=thumbnail.jpeg'"
+                            },
+                            "ETag": {
+                                "type": "integer",
+                                "description": "Strong ETag generated for the content"
+                            },
+                            "Checksum-SHA256": {
+                                "type": "string",
+                                "description": "Base16 hash for the entire file; not included in range requests; not computed, passed along from underlying metadata"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "A non-existent thumbnail was requested.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "head": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "tags": [
+                    "Binary Files"
+                ],
+                "summary": "Return thumbnail metadata without the file payload",
+                "responses": {
+                    "200": {
+                        "description": "Success. Just look at those headers!",
+                        "schema": {
+                            "type": "object"
+                        },
+                        "headers": {
+                            "Accepts-Ranges": {
+                                "type": "string",
+                                "description": "Indicates support of range requests; 'bytes'"
+                            },
+                            "Content-Length": {
+                                "type": "integer",
+                                "description": "Size of the content in bytes"
+                            },
+                            "Content-Type": {
+                                "type": "string",
+                                "description": "MIME Type of the content e.g. 'image/jpeg'"
+                            },
+                            "Content-Disposition": {
+                                "type": "string",
+                                "description": "Rendering and handling instcutions e.g. 'inline; filename=thumbnail.jpeg'"
+                            },
+                            "ETag": {
+                                "type": "integer",
+                                "description": "Strong ETag generated for the content"
+                            },
+                            "Checksum-SHA256": {
+                                "type": "string",
+                                "description": "Base16 hash for the entire file; not computed, passed along from underlying metadata"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "A non-existent thumbnail was requested.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/search": {
+            "get": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "summary": "Perform a search and return results. Pagination is accomplished using an offset/size scheme.",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Custom query string for filtering results",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "Pagination offset",
+                        "default": 0
+                    },
+                    {
+                        "name": "n",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "Request this many",
+                        "maximum": 100,
+                        "default": 20
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of ObjectInfo",
+                        "schema": {
+                            "$ref": "#/definitions/ObjectsQueryResult"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "AccessIdentifier": {
+            "type": "string",
+            "description": "In the future it will be of the form \"<type>:<value>\" where type might be netid, group, agent, or orcid and value might be dbrower, \"ETD Editors\", 0001-0002-0003-0004, etc."
+        },
+        "AccessRights": {
+            "type": "object",
+            "required": [
+                "read",
+                "edit"
+            ],
+            "properties": {
+                "embargo_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "read": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AccessIdentifier"
+                    }
+                },
+                "edit": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AccessIdentifier"
+                    }
+                }
+            }
+        },
+        "Error": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/StubObject"
+                }
+            ],
+            "required": [
+                "message",
+                "status_code"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "string"
+                },
+                "error_code": {
+                    "type": "string"
+                },
+                "error_class": {
+                    "type": "string"
+                }
+            }
+        },
+        "FileDigest": {
+            "type": "object",
+            "properties": {
+                "hex": {
+                    "type": "string"
+                },
+                "hashfunction": {
+                    "type": "string"
+                }
+            }
+        },
+        "Noid": {
+            "type": "string"
+        },
+        "ObjectInfo": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/StubObject"
+                }
+            ],
+            "required": [
+                "access",
+                "owner",
+                "depositor",
+                "date-added",
+                "date-modified"
+            ],
+            "properties": {
+                "access": {
+                    "$ref": "#/definitions/AccessRights"
+                },
+                "owner": {
+                    "$ref": "#/definitions/AccessIdentifier"
+                },
+                "depositor": {
+                    "$ref": "#/definitions/AccessIdentifier"
+                },
+                "date-added": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "date-modified": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "filename": {
+                    "type": "string"
+                },
+                "filesize": {
+                    "type": "integer"
+                },
+                "mimetype": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "isPartOf": {
+                    "$ref": "#/definitions/Noid"
+                },
+                "digest": {
+                    "$ref": "#/definitions/FileDigest"
+                }
+            }
+        },
+        "ObjectsQueryResult": {
+            "properties": {
+                "@context": {
+                    "type": "string"
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The query string that was provided"
+                },
+                "totalItems": {
+                    "type": "integer"
+                },
+                "startingOffset": {
+                    "type": "integer"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StubObject"
+                    }
+                },
+                "pagination": {
+                    "$ref": "#/definitions/Pagination"
+                }
+            }
+        },
+        "Pagination": {
+            "properties": {
+                "first": {
+                    "type": "string",
+                    "description": "URL to the first page of the results  e.g. '/search?q=\"search query\"'"
+                },
+                "previous": {
+                    "type": "string",
+                    "description": "URL to the previous page of the results e.g. '/search?q=\"search query\"?o=400'"
+                },
+                "next": {
+                    "type": "string",
+                    "description": "URL to the next page of the results e.g. '/search?q=\"search query\"?o=600'"
+                },
+                "last": {
+                    "type": "string",
+                    "description": "URL to the last page of the results e.g. '/search?q=\"search query\"?o=1200'"
+                }
+            }
+        },
+        "StubObject": {
+            "discriminator": "class",
+            "type": "object",
+            "required": [
+                "@context",
+                "class",
+                "id"
+            ],
+            "properties": {
+                "@context": {
+                    "type": "string"
+                },
+                "id": {
+                    "$ref": "#/definitions/Noid"
+                },
+                "class": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
