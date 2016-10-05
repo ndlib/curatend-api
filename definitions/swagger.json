@@ -83,7 +83,7 @@
                     "200": {
                         "description": "Retrieve the binary contents of the given file.",
                         "schema": {
-                            "type": "file"
+                            "type": "object"
                         },
                         "headers": {
                             "Accepts-Ranges": {
@@ -196,7 +196,7 @@
                     "200": {
                         "description": "Return the thumbnail for the given object",
                         "schema": {
-                            "type": "file"
+                            "type": "object"
                         },
                         "headers": {
                             "Accepts-Ranges": {
