@@ -432,7 +432,8 @@
                     "type": "string"
                 },
                 "filesize": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int64"
                 },
                 "mimetype": {
                     "type": "string"
@@ -498,7 +499,6 @@
             }
         },
         "StubObject": {
-            "discriminator": "class",
             "type": "object",
             "required": [
                 "@context",

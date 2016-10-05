@@ -289,6 +289,7 @@ definitions:
         type: string
       filesize:
         type: integer
+        format: int64
       mimetype:
         type: string
       thumbnail:
@@ -331,7 +332,6 @@ definitions:
         type: string
         description: URL to the last page of the results e.g. '/search?q="search query"?o=1200'
   StubObject:
-    discriminator: class
     type: object
     required:
       - "@context"
