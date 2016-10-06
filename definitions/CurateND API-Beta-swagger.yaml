@@ -1,0 +1,255 @@
+---
+swagger: "2.0"
+info:
+  version: "2016-10-06T14:38:30Z"
+  title: "CurateND API"
+host: "6xg8opfmwe.execute-api.us-west-2.amazonaws.com"
+basePath: "/Beta"
+schemes:
+- "https"
+paths:
+  /objects/{id}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ObjectInfo"
+      security:
+      - sigv4: []
+      - api_key: []
+  /objects/{id}/content:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/MODEL80c2"
+          headers:
+            ETag:
+              type: "string"
+            Checksum-SHA256:
+              type: "string"
+            Content-Disposition:
+              type: "string"
+            Accepts-Ranges:
+              type: "string"
+            Content-Length:
+              type: "string"
+            Content-Type:
+              type: "string"
+        404:
+          description: "404 response"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - sigv4: []
+      - api_key: []
+    head:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/MODELb838"
+          headers:
+            ETag:
+              type: "string"
+            Checksum-SHA256:
+              type: "string"
+            Content-Disposition:
+              type: "string"
+            Accepts-Ranges:
+              type: "string"
+            Content-Length:
+              type: "string"
+            Content-Type:
+              type: "string"
+        404:
+          description: "404 response"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - sigv4: []
+      - api_key: []
+  /objects/{id}/thumbnail:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/MODEL4d9d"
+          headers:
+            ETag:
+              type: "string"
+            Checksum-SHA256:
+              type: "string"
+            Content-Disposition:
+              type: "string"
+            Accepts-Ranges:
+              type: "string"
+            Content-Length:
+              type: "string"
+            Content-Type:
+              type: "string"
+        404:
+          description: "404 response"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - sigv4: []
+      - api_key: []
+    head:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/MODEL4a1d"
+          headers:
+            ETag:
+              type: "string"
+            Checksum-SHA256:
+              type: "string"
+            Content-Disposition:
+              type: "string"
+            Accepts-Ranges:
+              type: "string"
+            Content-Length:
+              type: "string"
+            Content-Type:
+              type: "string"
+        404:
+          description: "404 response"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - sigv4: []
+      - api_key: []
+  /search:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "q"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "false"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ObjectsQueryResult"
+      security:
+      - sigv4: []
+      - api_key: []
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "x-api-key"
+    in: "header"
+  sigv4:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+    x-amazon-apigateway-authtype: "awsSigv4"
+definitions:
+  MODELb838:
+    type: "object"
+  MODEL80c2:
+    type: "object"
+  Pagination:
+    properties:
+      first:
+        type: "string"
+        description: "URL to the first page of the results  e.g. '/search?q=\"search\
+          \ query\"'"
+      previous:
+        type: "string"
+        description: "URL to the previous page of the results e.g. '/search?q=\"search\
+          \ query\"?o=400'"
+      next:
+        type: "string"
+        description: "URL to the next page of the results e.g. '/search?q=\"search\
+          \ query\"?o=600'"
+      last:
+        type: "string"
+        description: "URL to the last page of the results e.g. '/search?q=\"search\
+          \ query\"?o=1200'"
+  MODEL4d9d:
+    type: "object"
+  Error:
+    allOf:
+    - $ref: "#/definitions/StubObject"
+    - {}
+  MODEL4a1d:
+    type: "object"
+  Noid:
+    type: "string"
+  ObjectsQueryResult:
+    properties:
+      '@context':
+        type: "string"
+      query:
+        type: "string"
+        description: "The query string that was provided"
+      totalItems:
+        type: "integer"
+      startingOffset:
+        type: "integer"
+      results:
+        type: "array"
+        items:
+          $ref: "#/definitions/StubObject"
+      pagination:
+        $ref: "#/definitions/Pagination"
+  ObjectInfo:
+    allOf:
+    - $ref: "#/definitions/StubObject"
+    - {}
+  StubObject:
+    type: "object"
+    required:
+    - "@context"
+    - "class"
+    - "id"
+    properties:
+      '@context':
+        type: "string"
+      id:
+        $ref: "#/definitions/Noid"
+      class:
+        type: "string"
