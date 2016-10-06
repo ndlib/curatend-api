@@ -43,7 +43,12 @@
                             "$ref": "#/definitions/ObjectInfo"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             }
         },
         "/objects/{id}/content": {
@@ -106,7 +111,12 @@
                             "$ref": "#/definitions/Error"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             },
             "head": {
                 "consumes": [
@@ -167,7 +177,12 @@
                             "$ref": "#/definitions/Error"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             }
         },
         "/objects/{id}/thumbnail": {
@@ -230,7 +245,12 @@
                             "$ref": "#/definitions/Error"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             },
             "head": {
                 "consumes": [
@@ -291,7 +311,12 @@
                             "$ref": "#/definitions/Error"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             }
         },
         "/search": {
@@ -334,8 +359,20 @@
                             "$ref": "#/definitions/ObjectsQueryResult"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             }
+        }
+    },
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "x-api-key",
+            "in": "header"
         }
     },
     "definitions": {
