@@ -23,22 +23,9 @@
     "produces": [
         "application/json"
     ],
-    "securityDefinitions": {
-        "api_key": {
-            "type": "apiKey",
-            "name": "api_key",
-            "in": "header",
-            "description": "You can request an API key by contacting Don Brower."
-        }
-    },
     "paths": {
         "/objects/{id}": {
             "get": {
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ],
                 "summary": "Get Object Info",
                 "parameters": [
                     {
@@ -70,11 +57,6 @@
                 }
             ],
             "get": {
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ],
                 "tags": [
                     "Binary Files"
                 ],
@@ -121,11 +103,6 @@
                 }
             },
             "head": {
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ],
                 "tags": [
                     "Binary Files"
                 ],
@@ -183,11 +160,6 @@
                 }
             ],
             "get": {
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ],
                 "tags": [
                     "Binary Files"
                 ],
@@ -234,11 +206,6 @@
                 }
             },
             "head": {
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ],
                 "tags": [
                     "Binary Files"
                 ],
@@ -287,11 +254,6 @@
         },
         "/search": {
             "get": {
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ],
                 "summary": "Perform a search and return results. Pagination is accomplished using an offset/size scheme.",
                 "parameters": [
                     {

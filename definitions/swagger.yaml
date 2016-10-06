@@ -18,17 +18,9 @@ consumes:
   - application/json
 produces:
   - application/json
-securityDefinitions:
-  api_key:
-    type: apiKey
-    name: api_key
-    in: header
-    description: You can request an API key by contacting Don Brower.
 paths:
   /objects/{id}:
     get:
-      security:
-        - api_key: []
       summary: Get Object Info
       parameters:
         - name: id
@@ -49,8 +41,6 @@ paths:
       description: The opaque identifier (e.g Noid) of the object to retrieve
       type: string
     get:
-      security:
-        - api_key: []
       tags:
         - Binary Files
       summary: This endpoint is used to retrieve the contents of a `file` object. Calling it on non-file objects will return a 404 error. The unversioned path will return the most current version.
@@ -83,8 +73,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     head:
-      security:
-        - api_key: []
       tags:
         - Binary Files
       summary: Return file metadata without the file payload
@@ -124,8 +112,6 @@ paths:
         description: The opaque identifier (e.g Noid) of the object to retrieve
         type: string
     get:
-      security:
-        - api_key: []
       tags:
         - Binary Files
       summary: Returns the thumbnail image for a collection, work, or file. For a work the thumbnail returned is that of the work’s representative image.
@@ -158,8 +144,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     head:
-      security:
-        - api_key: []
       tags:
         - Binary Files
       summary: Return thumbnail metadata without the file payload
@@ -193,8 +177,6 @@ paths:
             $ref: '#/definitions/Error'
   /search:
     get:
-      security:
-        - api_key: []
       summary: Perform a search and return results. Pagination is accomplished using an offset/size scheme.
       parameters:
         - name: q
