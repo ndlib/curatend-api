@@ -17,16 +17,16 @@
         "https"
     ],
     "basePath": "/api/v0",
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
     "paths": {
         "/objects/{id}": {
             "get": {
                 "summary": "Get Object Info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -47,16 +47,22 @@
             }
         },
         "/objects/{id}/content": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "description": "The opaque identifier (e.g Noid) of the object to retrieve",
-                    "type": "string"
-                }
-            ],
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The opaque identifier (e.g Noid) of the object to retrieve",
+                        "type": "string"
+                    }
+                ],
                 "tags": [
                     "Binary Files"
                 ],
@@ -65,7 +71,7 @@
                     "200": {
                         "description": "Retrieve the binary contents of the given file.",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/FileResponse"
                         },
                         "headers": {
                             "Accepts-Ranges": {
@@ -103,6 +109,21 @@
                 }
             },
             "head": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The opaque identifier (e.g Noid) of the object to retrieve",
+                        "type": "string"
+                    }
+                ],
                 "tags": [
                     "Binary Files"
                 ],
@@ -111,7 +132,7 @@
                     "200": {
                         "description": "Success. Just look at those headers!",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/EmptyResponse"
                         },
                         "headers": {
                             "Accepts-Ranges": {
@@ -150,16 +171,22 @@
             }
         },
         "/objects/{id}/thumbnail": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "description": "The opaque identifier (e.g Noid) of the object to retrieve",
-                    "type": "string"
-                }
-            ],
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The opaque identifier (e.g Noid) of the object to retrieve",
+                        "type": "string"
+                    }
+                ],
                 "tags": [
                     "Binary Files"
                 ],
@@ -168,7 +195,7 @@
                     "200": {
                         "description": "Return the thumbnail for the given object",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/ThumbnailResponse"
                         },
                         "headers": {
                             "Accepts-Ranges": {
@@ -206,6 +233,21 @@
                 }
             },
             "head": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The opaque identifier (e.g Noid) of the object to retrieve",
+                        "type": "string"
+                    }
+                ],
                 "tags": [
                     "Binary Files"
                 ],
@@ -214,7 +256,7 @@
                     "200": {
                         "description": "Success. Just look at those headers!",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/EmptyResponse"
                         },
                         "headers": {
                             "Accepts-Ranges": {
@@ -254,6 +296,12 @@
         },
         "/search": {
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "summary": "Perform a search and return results. Pagination is accomplished using an offset/size scheme.",
                 "parameters": [
                     {
@@ -320,6 +368,9 @@
                 }
             }
         },
+        "EmptyResponse": {
+            "type": "object"
+        },
         "Error": {
             "allOf": [
                 {
@@ -355,6 +406,9 @@
                     "type": "string"
                 }
             }
+        },
+        "FileResponse": {
+            "type": "object"
         },
         "Noid": {
             "type": "string"
@@ -478,6 +532,9 @@
                     "type": "string"
                 }
             }
+        },
+        "ThumbnailResponse": {
+            "type": "object"
         }
     }
 }
