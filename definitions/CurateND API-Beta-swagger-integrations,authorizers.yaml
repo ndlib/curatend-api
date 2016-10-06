@@ -1,7 +1,7 @@
 ---
 swagger: "2.0"
 info:
-  version: "2016-10-06T14:38:30Z"
+  version: "2016-10-06T19:14:20Z"
   title: "CurateND API"
 host: "6xg8opfmwe.execute-api.us-west-2.amazonaws.com"
 basePath: "/Beta"
@@ -28,24 +28,29 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
+        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        type: "mock"
   /objects/{id}/content:
     get:
       consumes:
       - "application/json"
       produces:
       - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/MODEL80c2"
+            $ref: "#/definitions/FileResponse"
           headers:
             ETag:
               type: "string"
@@ -67,23 +72,28 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
+        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        type: "mock"
     head:
       consumes:
       - "application/json"
       produces:
       - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/MODELb838"
+            $ref: "#/definitions/EmptyResponse"
           headers:
             ETag:
               type: "string"
@@ -105,24 +115,29 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
+        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        type: "mock"
   /objects/{id}/thumbnail:
     get:
       consumes:
       - "application/json"
       produces:
       - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/MODEL4d9d"
+            $ref: "#/definitions/ThumbnailResponse"
           headers:
             ETag:
               type: "string"
@@ -144,23 +159,28 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
+        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        type: "mock"
     head:
       consumes:
       - "application/json"
       produces:
       - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
       responses:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/MODEL4a1d"
+            $ref: "#/definitions/EmptyResponse"
           headers:
             ETag:
               type: "string"
@@ -182,13 +202,13 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
+        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        type: "mock"
   /search:
     get:
       consumes:
@@ -217,13 +237,13 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
+        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
-        type: "mock"
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -235,9 +255,7 @@ securityDefinitions:
     in: "header"
     x-amazon-apigateway-authtype: "awsSigv4"
 definitions:
-  MODELb838:
-    type: "object"
-  MODEL80c2:
+  FileResponse:
     type: "object"
   Pagination:
     properties:
@@ -257,14 +275,12 @@ definitions:
         type: "string"
         description: "URL to the last page of the results e.g. '/search?q=\"search\
           \ query\"?o=1200'"
-  MODEL4d9d:
+  ThumbnailResponse:
     type: "object"
   Error:
     allOf:
     - $ref: "#/definitions/StubObject"
     - {}
-  MODEL4a1d:
-    type: "object"
   Noid:
     type: "string"
   ObjectsQueryResult:
@@ -284,6 +300,8 @@ definitions:
           $ref: "#/definitions/StubObject"
       pagination:
         $ref: "#/definitions/Pagination"
+  EmptyResponse:
+    type: "object"
   ObjectInfo:
     allOf:
     - $ref: "#/definitions/StubObject"

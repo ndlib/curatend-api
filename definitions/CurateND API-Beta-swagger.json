@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-10-06T14:38:30Z",
+    "version": "2016-10-06T19:14:20Z",
     "title": "CurateND API"
   },
   "host": "6xg8opfmwe.execute-api.us-west-2.amazonaws.com",
@@ -52,11 +52,19 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "200 response",
             "schema": {
-              "$ref": "#/definitions/MODEL80c2"
+              "$ref": "#/definitions/FileResponse"
             },
             "headers": {
               "ETag": {
@@ -102,11 +110,19 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "200 response",
             "schema": {
-              "$ref": "#/definitions/MODELb838"
+              "$ref": "#/definitions/EmptyResponse"
             },
             "headers": {
               "ETag": {
@@ -154,11 +170,19 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "200 response",
             "schema": {
-              "$ref": "#/definitions/MODEL4d9d"
+              "$ref": "#/definitions/ThumbnailResponse"
             },
             "headers": {
               "ETag": {
@@ -204,11 +228,19 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "200 response",
             "schema": {
-              "$ref": "#/definitions/MODEL4a1d"
+              "$ref": "#/definitions/EmptyResponse"
             },
             "headers": {
               "ETag": {
@@ -309,10 +341,7 @@
     }
   },
   "definitions": {
-    "MODELb838": {
-      "type": "object"
-    },
-    "MODEL80c2": {
+    "FileResponse": {
       "type": "object"
     },
     "Pagination": {
@@ -335,7 +364,7 @@
         }
       }
     },
-    "MODEL4d9d": {
+    "ThumbnailResponse": {
       "type": "object"
     },
     "Error": {
@@ -345,9 +374,6 @@
         },
         {}
       ]
-    },
-    "MODEL4a1d": {
-      "type": "object"
     },
     "Noid": {
       "type": "string"
@@ -377,6 +403,9 @@
           "$ref": "#/definitions/Pagination"
         }
       }
+    },
+    "EmptyResponse": {
+      "type": "object"
     },
     "ObjectInfo": {
       "allOf": [
