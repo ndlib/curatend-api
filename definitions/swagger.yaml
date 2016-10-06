@@ -1,9 +1,9 @@
 # Built using the [swagger.io editor](http://editor.swagger.io/#/)
 swagger: '2.0'
 info:
-  title: CurateND Query API
+  title: CurateND API
   description: |
-    Prototype of the CurateND Query API. This is a work in progress.
+    Prototype of the CurateND API. This is a work in progress.
   version: "0.0.0"
   license:
     name: Apache 2.0
@@ -14,22 +14,14 @@ info:
 schemes:
   - https
 basePath: /api/v0
-consumes:
-  - application/json
-produces:
-  - application/json
-securityDefinitions:
-  api_key:
-    type: apiKey
-    name: api_key
-    in: header
-    description: You can request an API key by contacting Don Brower.
 paths:
   /objects/{id}:
     get:
-      security:
-        - api_key: []
       summary: Get Object Info
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: id
           in: path
@@ -41,16 +33,20 @@ paths:
           description: An ObjectInfo
           schema:
             $ref: '#/definitions/ObjectInfo'
-  /objects/{id}/content:
-    parameters:
-    - name: id
-      in: path
-      required: true
-      description: The opaque identifier (e.g Noid) of the object to retrieve
-      type: string
-    get:
       security:
-        - api_key: []
+      - api_key: []
+  /objects/{id}/content:
+    get:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The opaque identifier (e.g Noid) of the object to retrieve
+          type: string
       tags:
         - Binary Files
       summary: This endpoint is used to retrieve the contents of a `file` object. Calling it on non-file objects will return a 404 error. The unversioned path will return the most current version.
@@ -58,7 +54,7 @@ paths:
         200:
           description: Retrieve the binary contents of the given file.
           schema:
-            type: file
+            $ref: '#/definitions/FileResponse'
           headers:
             Accepts-Ranges:
               type: string
@@ -82,9 +78,19 @@ paths:
           description: A non-file object or non-existent object was requested.
           schema:
             $ref: '#/definitions/Error'
-    head:
       security:
-        - api_key: []
+      - api_key: []
+    head:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The opaque identifier (e.g Noid) of the object to retrieve
+          type: string
       tags:
         - Binary Files
       summary: Return file metadata without the file payload
@@ -92,7 +98,7 @@ paths:
         200:
           description: Success. Just look at those headers!
           schema:
-            type: object
+            $ref: '#/definitions/EmptyResponse'
           headers:
             Accepts-Ranges:
               type: string
@@ -116,16 +122,20 @@ paths:
           description: A non-file object or non-existent object was requested.
           schema:
             $ref: '#/definitions/Error'
-  /objects/{id}/thumbnail:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        description: The opaque identifier (e.g Noid) of the object to retrieve
-        type: string
-    get:
       security:
-        - api_key: []
+      - api_key: []
+  /objects/{id}/thumbnail:
+    get:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The opaque identifier (e.g Noid) of the object to retrieve
+          type: string
       tags:
         - Binary Files
       summary: Returns the thumbnail image for a collection, work, or file. For a work the thumbnail returned is that of the work’s representative image.
@@ -133,7 +143,7 @@ paths:
         200:
           description: Return the thumbnail for the given object
           schema:
-            type: file
+            $ref: '#/definitions/ThumbnailResponse'
           headers:
             Accepts-Ranges:
               type: string
@@ -157,9 +167,19 @@ paths:
           description: A non-existent thumbnail was requested.
           schema:
             $ref: '#/definitions/Error'
-    head:
       security:
-        - api_key: []
+      - api_key: []
+    head:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The opaque identifier (e.g Noid) of the object to retrieve
+          type: string
       tags:
         - Binary Files
       summary: Return thumbnail metadata without the file payload
@@ -167,7 +187,7 @@ paths:
         200:
           description: Success. Just look at those headers!
           schema:
-            type: object
+            $ref: '#/definitions/EmptyResponse'
           headers:
             Accepts-Ranges:
               type: string
@@ -191,10 +211,14 @@ paths:
           description: A non-existent thumbnail was requested.
           schema:
             $ref: '#/definitions/Error'
+      security:
+      - api_key: []
   /search:
     get:
-      security:
-        - api_key: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
       summary: Perform a search and return results. Pagination is accomplished using an offset/size scheme.
       parameters:
         - name: q
@@ -218,6 +242,13 @@ paths:
           description: An array of ObjectInfo
           schema:
             $ref: '#/definitions/ObjectsQueryResult'
+      security:
+      - api_key: []
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "x-api-key"
+    in: "header"
 definitions:
   AccessIdentifier:
     type: string
@@ -239,6 +270,8 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/AccessIdentifier'
+  EmptyResponse:
+    type: object
   Error:
     allOf:
       - $ref: '#/definitions/StubObject'
@@ -261,6 +294,8 @@ definitions:
         type: string
       hashfunction:
         type: string
+  FileResponse:
+    type: object
   Noid:
     type: string
   ObjectInfo: # TODO: Differentiate File, Work, and Collection
@@ -289,6 +324,7 @@ definitions:
         type: string
       filesize:
         type: integer
+        format: int64
       mimetype:
         type: string
       thumbnail:
@@ -331,7 +367,6 @@ definitions:
         type: string
         description: URL to the last page of the results e.g. '/search?q="search query"?o=1200'
   StubObject:
-    discriminator: class
     type: object
     required:
       - "@context"
@@ -344,3 +379,5 @@ definitions:
         $ref: '#/definitions/Noid'
       class:
         type: string
+  ThumbnailResponse:
+    type: object
