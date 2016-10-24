@@ -1,9 +1,9 @@
 ---
 swagger: "2.0"
 info:
-  version: "2016-10-06T19:14:20Z"
+  version: "2016-10-24T14:41:42Z"
   title: "CurateND API"
-host: "6xg8opfmwe.execute-api.us-west-2.amazonaws.com"
+host: "tye8gobej6.execute-api.us-east-1.amazonaws.com"
 basePath: "/Beta"
 schemes:
 - "https"
@@ -28,13 +28,13 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
-        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
+        type: "mock"
   /objects/{id}/content:
     get:
       consumes:
@@ -72,13 +72,13 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
-        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
+        type: "mock"
     head:
       consumes:
       - "application/json"
@@ -115,13 +115,13 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
-        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
+        type: "mock"
   /objects/{id}/thumbnail:
     get:
       consumes:
@@ -159,13 +159,13 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
-        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
+        type: "mock"
     head:
       consumes:
       - "application/json"
@@ -202,13 +202,13 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
-        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
+        type: "mock"
   /search:
     get:
       consumes:
@@ -237,13 +237,13 @@ paths:
       - sigv4: []
       - api_key: []
       x-amazon-apigateway-integration:
-        type: "mock"
         responses:
           default:
             statusCode: "200"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
+        type: "mock"
 securityDefinitions:
   api_key:
     type: "apiKey"
