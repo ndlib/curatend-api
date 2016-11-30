@@ -1,0 +1,119 @@
+# Built using the [swagger.io editor](http://editor.swagger.io/#/)
+swagger: '2.0'
+info:
+  title: CurateND API
+  description: |
+    Prototype of the existing curateND services
+  version: "1.0.0"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    name: CurateND support team
+    email: curate@nd.edu
+schemes:
+  - https
+paths:
+  /show/{id}.jsonld:
+    get:
+      summary: Retrieves a jsonld representation of the item.
+      consumes:
+        - application/json
+      produces:
+        - application/ld+json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The opaque identifier (e.g Noid) of the item to retrieve
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/jsonld_response'
+          headers:
+            Cache-Control:
+              type: string
+              description: Directives that must be obeyed by all caching mechanisms
+            Connection:
+              type: string
+              description: Control options for the current connection e.g. 'keep-alive'
+            Content-Type:
+              type: string
+              description: MIME Type of the content e.g. 'application/ld+json'
+            ETag:
+              type: string
+              description: Identifier for a specific version of a resource
+        304:
+          description: A 'Not modified' 200 OK
+          schema:
+            $ref: '#/definitions/jsonld_response'
+          headers:
+            Cache-Control:
+              type: string
+              description: Directives that must be obeyed by all caching mechanisms
+            Connection:
+              type: string
+              description: Control options for the current connection e.g. 'keep-alive'
+            ETag:
+              type: string
+              description: Identifier for a specific version of a resource
+        500:
+          description: Non-existent item was requested. Internal server error from nginx
+          schema:
+            $ref: '#/definitions/Error'
+          headers:
+            Connection:
+              type: string
+              description: Control options for the current connection e.g. 'close'
+definitions:
+  Error:
+    required:
+      - message
+      - status_code
+    properties:
+      message:
+        type: string
+      status_code:
+        type: string
+      error_code:
+        type: string
+
+  jsonld_response:
+    type: object
+    required:
+      - "@context"
+      - "@id"
+      - hasEditor
+      - hasEditorGroup
+      - "nd:afmodel"
+      - "nd:depositor"
+      - "nd:representativeFile"
+      - "nd:accessReadGroup"
+      - "nd:accessEditGroup"
+      - "nd:accessEdit"
+      - "@graph"
+    properties:
+      "@context":
+        type: object
+      "@id":
+        type: string
+      hasEditor:
+        type: string
+      hasEditorGroup:
+        type: string
+      "nd:afmodel":
+        type: string
+      "nd:depositor":
+        type: string
+      "nd:representativeFile":
+        type: object
+      "nd:accessReadGroup":
+        type: object
+      "nd:accessEditGroup":
+        type: object
+      "nd:accessEdit":
+        type: object
+      "@graph":
+        type: object
